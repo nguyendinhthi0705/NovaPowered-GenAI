@@ -1,10 +1,8 @@
-# Overview Study-Assistant
-This is a simple demo of Amazon Bedrock and Anthropic Claude 3 Sonnet model with langchain and streamlit. For more detail please reference the following link: <br />
+# Overview NovaPowered-GenAI-Assistant
+This is a simple demo of Amazon Bedrock and Amazon Nova model with langchain and streamlit. For more detail please reference the following link: <br />
 - <a href="https://aws.amazon.com/bedrock/" target="_blank">https://aws.amazon.com/bedrock/ </a>
-- <a href="https://www.anthropic.com/news/claude-3-family" target="_blank">Claude 3 </a>
-# To view demo and sample data:
-    Access folder demo for demo video
-    Access folder samples for sample videos
+- <a href="https://aws.amazon.com/ai/generative-ai/nova/" target="_blank">Amazon Nova </a>
+
 
 # To Setup
 Setup <a href='https://docs.python-guide.org/starting/install3/linux/' target='_blank'> Python <a><br />

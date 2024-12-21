@@ -51,7 +51,7 @@ def init(prompt, image_bytes=None):
 
     system_list = [
             {
-                "text": "Act as a chatbot assistant. You anwser the question they input."
+                "text": "Act as a chatbot assistant. You anwser the question they input in the same inout languages"
             }
     ]
     request_body = {
@@ -144,7 +144,7 @@ def search(prompt):
     retrieved_docs = retriever.get_relevant_documents(prompt + " 2024")
     context = "\n".join([doc.page_content for doc in retrieved_docs])
     system_prompt = f"""
-    Based on the provided context, provide the answer to the following question:
+    Based on the provided context, provide the answer to the question in the input languages:
     <context>{context}</context>
     <question>{prompt} </question>
 """
