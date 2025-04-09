@@ -9,9 +9,9 @@ Setup <a href='https://docs.python-guide.org/starting/install3/linux/' target='_
 Setup <a href='https://docs.python-guide.org/starting/install3/linux/' target='_blank'> Python Env<br />
 Setup <a href='https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html' target='_blank'> AWS CLI<br />
 > git clone https://github.com/nguyendinhthi0705/NovaPowered-GenAI.git <br />
-> cd Study-Assistant <br />
+> cd NovaPowered-GenAI <br />
 > pip3 install -r requirements.txt <br />
-> streamlit run Home.py --server.port 8080 <br />
+> streamlit run Hoappme.py --server.port 8080 <br />
 
 
 # Learn more about Amazon Nova

@@ -27,5 +27,5 @@ class ImageAnalysisPage(BasePage):
             go_button = st.button("Go", type="primary")
 
         if input_text and go_button: 
-            response = ai_service.call_stream(input_text, image_bytes)
+            response = self.ai_service.call_stream(input_text, image_bytes)
             st.write_stream(response)
