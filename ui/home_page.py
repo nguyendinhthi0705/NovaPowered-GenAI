@@ -17,6 +17,4 @@ class HomePage(BasePage):
         input_text = st.text_area("Input your question") 
         go_button = st.button("Go", type="primary")
         if input_text and go_button: 
-            response = self.ai_service.call_stream(input_text)
-            print(response)
-            st.write_stream(response)
+            st.write_stream(self.ai_service.call_stream(input_text))

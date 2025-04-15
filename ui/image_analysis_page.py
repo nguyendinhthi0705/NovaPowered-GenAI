@@ -8,11 +8,7 @@ class ImageAnalysisPage(BasePage):
     
     def render(self):
         """Render image analysis page"""
-        st.markdown("Create 1 Data-Driven Test Function with Katalon") 
-        st.markdown("Create 1 test case login page with Katalon") 
-        st.markdown("Create 1 API Test Function with Katalon") 
-        st.markdown("Create a selenium test functions for a for list users") 
-
+  
         image_bytes = ""
         st.subheader("Select an Image") 
         uploaded_file = st.file_uploader("Select an image", type=['png', 'jpeg'], label_visibility="collapsed")
