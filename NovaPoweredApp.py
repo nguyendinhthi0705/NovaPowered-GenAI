@@ -1,6 +1,7 @@
-from models.bedrock_client import BedrockClient
-from services.ai_service import AIService
-from services.knowledge_base_service import KnowledgeBaseService
+from infrastructure.ai.bedrock_client import BedrockClient
+from core.services.text_generation import TextGenerationService
+from core.services.image_analysis import ImageAnalysisService
+from core.services.knowledge_base import KnowledgeBaseService
 from ui.home_page import HomePage
 from ui.image_analysis_page import ImageAnalysisPage
 from ui.star_report_page  import STARReportPage
@@ -15,13 +16,14 @@ class NovaPoweredApp:
     
     def __init__(self):
         self.bedrock_client = BedrockClient()
-        self.ai_service = AIService(self.bedrock_client)
-        self.kb_service = KnowledgeBaseService()
-        self.home_page = HomePage("Home Page", self.ai_service)
-        self.image_analysis_page = ImageAnalysisPage("Image Analysis", self.ai_service)
-        self.star_report_page = STARReportPage("STAR Report Page", self.ai_service)
-        self.improve_writing = ImproveWritingPage("Improve Writing Page", self.ai_service)
-        self.rewrite_page = RewritePage("Rewrite Page", self.ai_service)
+        self.text_generation = TextGenerationService(self.bedrock_client)
+        self.kb_service = KnowledgeBaseService("", self.bedrock_client)
+        self.home_page = HomePage("Home Page", self.text_generation)
+        self.image_analysis = ImageAnalysisService(self.bedrock_client)
+        self.image_analysis_page = ImageAnalysisPage("Image Analysis", self.image_analysis)
+        self.star_report_page = STARReportPage("STAR Report Page", self.text_generation)
+        self.improve_writing = ImproveWritingPage("Improve Writing Page", self.text_generation)
+        self.rewrite_page = RewritePage("Rewrite Page", self.text_generation)
 
 
     def run(self):

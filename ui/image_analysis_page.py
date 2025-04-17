@@ -1,10 +1,13 @@
-from models.image_processor import ImageProcessor
-from services import ai_service
+from infrastructure.ai.image_processor import ImageProcessor
 from ui.base_page import BasePage
 import streamlit as st 
 
 class ImageAnalysisPage(BasePage):
     """Image analysis page"""
+    def __init__(self, title, image_analysis):
+        self.title = title
+        super().__init__("Image Analysis Page")
+        self.image_analysis = image_analysis
     
     def render(self):
         """Render image analysis page"""
@@ -23,5 +26,5 @@ class ImageAnalysisPage(BasePage):
             go_button = st.button("Go", type="primary")
 
         if input_text and go_button: 
-            response = self.ai_service.call_stream(input_text, image_bytes)
+            response = self.image_analysis.analyze_image(input_text, image_bytes)
             st.write_stream(response)

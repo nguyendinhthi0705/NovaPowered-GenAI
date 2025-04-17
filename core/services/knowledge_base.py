@@ -1,13 +1,13 @@
 from langchain_community.retrievers import AmazonKnowledgeBasesRetriever
 
-from models.bedrock_client import BedrockClient
+from core.interfaces.ai_client import AIClient
 
 class KnowledgeBaseService:
     """Service for knowledge base operations"""
     
-    def __init__(self, knowledge_base_id="KS3NLF2KU6"):
+    def __init__(self, knowledge_base_id, ai_client: AIClient):
         self.knowledge_base_id = knowledge_base_id
-        self.bedrock_client = BedrockClient()
+        self.bedrock_client = ai_client
 
     def search(self, prompt):
         retriever = AmazonKnowledgeBasesRetriever(

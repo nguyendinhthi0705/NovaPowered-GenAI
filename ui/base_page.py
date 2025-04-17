@@ -1,13 +1,15 @@
-from services.ai_service import AIService
+from core.services.text_generation import TextGenerationService
+from core.interfaces.ai_client import AIClient
+
 import streamlit as st 
 
 class BasePage:
     """Base class for all pages"""
     
-    def __init__(self, title, ai_service=None):
+    def __init__(self, title, text_generation= None):
         self.title = title
         super().__init__()
-        self.ai_service = ai_service or AIService()
+        self.text_generation = text_generation
         
     def setup(self):
         """Setup page configuration"""
