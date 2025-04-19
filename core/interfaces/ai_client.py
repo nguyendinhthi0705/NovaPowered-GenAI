@@ -13,4 +13,8 @@ class AIClient(ABC):
     def analyze_image(self, prompt: str, image_bytes: bytes) -> str:
         """Analyze image with prompt"""
         pass
-        
+    
+    @abstractmethod
+    def generate_image(self, prompt: str, negative_prompt: Optional[str] = None, 
+                      style_preset: Optional[str] = None, seed: Optional[int] = None):
+        pass

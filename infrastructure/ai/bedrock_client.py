@@ -1,5 +1,6 @@
 import json
 import boto3
+import base64
 from typing import Dict, Generator, Optional
 from core.interfaces.ai_client import AIClient
 from infrastructure.ai.image_processor import ImageProcessor
@@ -107,5 +108,47 @@ class BedrockClient(AIClient):
                         yield content_block_delta.get("delta").get("text")
             print(f"Total chunks: {chunk_count}")
         else:
-            print("No response stream received.")     
+            print("No response stream received.")
+            
+    def generate_image(self, prompt: str, negative_prompt: Optional[str] = None, 
+                      style_preset: Optional[str] = None, seed: Optional[int] = None) -> bytes:
+        """Generate image using Amazon Nova Reel"""
+        # Using Amazon Nova Reel model for image generation
+        model_id = "amazon.nova-canvas-v1:0"
+        
+        # Prepare request body for image generation
+        request_body = {
+            "textToImageParams": {
+            "text": prompt
+            },
+            "taskType": "TEXT_IMAGE",
+            "imageGenerationConfig": {
+                "numberOfImages": 1,
+                "height": 1024,
+                "width": 1024,
+                "cfgScale": 8.0
+            }
+        }
+        
+        # Add optional parameters if provided
+        if negative_prompt:
+            request_body["negativePrompt"] = negative_prompt
+        if style_preset:
+            request_body["imageGenerationConfig"]["stylePreset"] = style_preset
+        if seed is not None:
+            request_body["imageGenerationConfig"]["seed"] = seed
+            
+        # Invoke the model
+        response = self.client.invoke_model(
+            modelId=model_id,
+            body=json.dumps(request_body)
+        )
+        
+        # Process the response
+        response_body = json.loads(response.get("body").read())
+        image_base64 = response_body.get("images")[0]
+        
+        # Convert base64 to bytes
+        image_bytes = base64.b64decode(image_base64)
+        return image_bytes
         
