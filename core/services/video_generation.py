@@ -59,18 +59,27 @@ class VideoGenerationService:
                 }
             
             # Check job status
-            status_response = self.check_job_status(job_id)
-            current_status = status_response.get("status")
-            print(status_response)
+            response = self.check_job_status(job_id)
+            current_status = response.get("status")
+            print(response)
             
             # If completed or failed, return the status
             if current_status in ["Completed", "Failed"]:
-                return status_response
+                if 'outputDataConfig' in response and 's3OutputDataConfig' in response['outputDataConfig']:
+                    s3uri = response['outputDataConfig']['s3OutputDataConfig'].get('s3Uri')
+    
+                    result = {
+                        "s3uri": s3uri,
+                        "status": current_status,
+                        "url": self.get_video_url(s3uri, config.S3_OUTPUT_KEY)
+                    }
+                    return result
+                return response
                 
             # Wait before checking again
             time.sleep(poll_interval)
     
-    def get_video_url(self, bucket: str, key: str, expiration: int = 3600) -> str:
+    def get_video_url(self, s3_uri: str, key: str, expiration: int = 3600) -> str:
         """
         Generate a presigned URL for accessing the video
         
@@ -82,8 +91,16 @@ class VideoGenerationService:
         Returns:
             Presigned URL for the video
         """
+
+        parts = s3_uri[5:].split('/', 1)
+        bucket_name = parts[0]
+
+        prefix = parts[1] if len(parts) > 1 else ""
+        object_key = f"{prefix}/{key}" if prefix else key
+
+
         return self.s3_client.generate_presigned_url(
             'get_object',
-            Params={'Bucket': bucket, 'Key': key},
+            Params={'Bucket': bucket_name, 'Key': object_key},
             ExpiresIn=expiration
         )

@@ -168,7 +168,6 @@ class BedrockClient(AIClient):
         # Generate a unique output key for this video
         import uuid
         import time
-        output_key = f"{config.S3_VIDEO_PREFIX}{int(time.time())}_{uuid.uuid4()}.mp4"
         
         model_input = {
             "taskType": "TEXT_VIDEO",

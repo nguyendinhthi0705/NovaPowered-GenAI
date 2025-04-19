@@ -91,34 +91,29 @@ class VideoGenerationPage(BasePage):
                 
                 try:
                     # Check job status
-                    status_response = self.video_generation_service.wait_for_video_completion(st.session_state.video_job)
-                    current_status = status_response.get("status")
-                    print(status_response)
+                    response = self.video_generation_service.wait_for_video_completion(st.session_state.video_job)
+                    current_status = response.get("status")
+                    print(response)
                     if current_status == "Completed":
                         # Video is ready
                         status_placeholder.success("Video generation completed!")
                         
-                        # Get the S3 URL
-                        s3_bucket = status_response.get("outputDataConfig").get("s3OutputDataConfig").get("s3Uri")
-                        s3_key = config.S3_OUTPUT_KEY
-
-                        
                         try:
                             # Generate a presigned URL for the video
-                            video_url = self.video_generation_service.get_video_url(s3_bucket, s3_key)
+                            video_url = response.get("url")
                             
                             # Display the video
-                            st.video(video_url)
+                            st.video(response.get("url"))
                             
                             # Add download link
                             st.markdown(f"[Download Video]({video_url})")
                         except Exception as e:
                             st.error(f"Error retrieving video: {str(e)}")
-                            st.info(f"The video should be available in S3 bucket: {s3_bucket}, key: {s3_key}")
+                            st.info(f"The video should be available in S3 bucket: {current_status.get("s3uri")}, key: {config.S3_BUCKET_NAME}")
                         
                     elif current_status == "FAILED":
                         # Video generation failed
-                        error_message = status_response.get("details", {}).get("errorMessage", "Unknown error")
+                        error_message = response.get("details", {}).get("errorMessage", "Unknown error")
                         status_placeholder.error(f"Video generation failed: {error_message}")
                         
                     else:
