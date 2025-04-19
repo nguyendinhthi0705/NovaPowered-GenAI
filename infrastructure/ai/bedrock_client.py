@@ -112,8 +112,8 @@ class BedrockClient(AIClient):
             
     def generate_image(self, prompt: str, negative_prompt: Optional[str] = None, 
                       style_preset: Optional[str] = None, seed: Optional[int] = None) -> bytes:
-        """Generate image using Amazon Nova Reel"""
-        # Using Amazon Nova Reel model for image generation
+        """Generate image using Amazon Nova Canvas"""
+        # Using Amazon Nova Canvas model for image generation
         model_id = "amazon.nova-canvas-v1:0"
         
         # Prepare request body for image generation
@@ -152,3 +152,45 @@ class BedrockClient(AIClient):
         image_bytes = base64.b64decode(image_base64)
         return image_bytes
         
+    def generate_video(self, prompt: str, duration: int = 5, negative_prompt: Optional[str] = None, 
+                      style_preset: Optional[str] = None, seed: Optional[int] = None) -> str:
+        """Generate video using Amazon Nova Reel
+        
+        This is an asynchronous operation. The method returns a job ID and S3 details
+        that can be used to check the status and retrieve the video when ready.
+        """
+        # Import config for S3 settings
+        import config
+        
+        # Using Amazon Nova Reel model for video generation
+        model_id = config.NOVA_REEL_MODEL_ID
+        
+        # Generate a unique output key for this video
+        import uuid
+        import time
+        output_key = f"{config.S3_VIDEO_PREFIX}{int(time.time())}_{uuid.uuid4()}.mp4"
+        
+        model_input = {
+            "taskType": "TEXT_VIDEO",
+            "textToVideoParams": {"text": prompt},
+            "videoGenerationConfig": {
+                "fps": 24,
+                "durationSeconds": 6,  # Must be a multiple of 6, up to 120 for multi-shot
+                "dimension": "1280x720",
+                "seed": seed,
+            },
+        }
+        output_config = {"s3OutputDataConfig": {"s3Uri": config.S3_BUCKET_NAME}}
+
+        response = self.client.start_async_invoke(
+            modelId=model_id,
+            modelInput=model_input,
+            outputDataConfig=output_config
+        )
+        invocation_arn = response["invocationArn"]
+        return invocation_arn
+        
+    def check_video_job_status(self,invocation_arn: str):
+        return self.client.get_async_invoke(invocationArn=invocation_arn)
+
+    
