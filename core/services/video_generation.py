@@ -13,7 +13,6 @@ class VideoGenerationService:
     
     def generate_video(self, prompt: str, duration: int = 5, 
                       negative_prompt: Optional[str] = None, 
-                      style_preset: Optional[str] = None, 
                       seed: Optional[int] = None) -> Dict:
         """
         Generate video from prompt using Amazon Nova Reel
@@ -25,7 +24,6 @@ class VideoGenerationService:
             prompt=prompt,
             duration=duration,
             negative_prompt=negative_prompt,
-            style_preset=style_preset,
             seed=seed
         )
     

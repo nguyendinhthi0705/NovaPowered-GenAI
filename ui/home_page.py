@@ -8,11 +8,8 @@ class HomePage(BasePage):
         
     def render(self):
         """Render home page"""
-        st.markdown("Create 1 Data-Driven Test Function with Katalon")
-        st.markdown("Create 1 Data-Driven Test Function with Katalon") 
-        st.markdown("Create 1 test case login page with Katalon") 
-        st.markdown("Create 1 API Test Function with Katalon") 
-        st.markdown("Create a selenium test functions for a for list users") 
+
+        st.markdown("Ask me anything") 
         input_text = st.text_area("Input your question") 
         go_button = st.button("Go", type="primary")
         if input_text and go_button: 

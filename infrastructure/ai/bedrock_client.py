@@ -111,7 +111,7 @@ class BedrockClient(AIClient):
             print("No response stream received.")
             
     def generate_image(self, prompt: str, negative_prompt: Optional[str] = None, 
-                      style_preset: Optional[str] = None, seed: Optional[int] = None) -> bytes:
+                    seed: Optional[int] = None) -> bytes:
         """Generate image using Amazon Nova Canvas"""
         # Using Amazon Nova Canvas model for image generation
         model_id = "amazon.nova-canvas-v1:0"
@@ -133,8 +133,6 @@ class BedrockClient(AIClient):
         # Add optional parameters if provided
         if negative_prompt:
             request_body["negativePrompt"] = negative_prompt
-        if style_preset:
-            request_body["imageGenerationConfig"]["stylePreset"] = style_preset
         if seed is not None:
             request_body["imageGenerationConfig"]["seed"] = seed
             
@@ -153,7 +151,7 @@ class BedrockClient(AIClient):
         return image_bytes
         
     def generate_video(self, prompt: str, duration: int = 5, negative_prompt: Optional[str] = None, 
-                      style_preset: Optional[str] = None, seed: Optional[int] = None) -> str:
+                    seed: Optional[int] = None) -> str:
         """Generate video using Amazon Nova Reel
         
         This is an asynchronous operation. The method returns a job ID and S3 details

@@ -35,13 +35,6 @@ class VideoGenerationPage(BasePage):
             negative_prompt = st.text_area("Negative Prompt (what to avoid in the video)", 
                                          placeholder="blurry, distorted, low quality", 
                                          help="Describe elements you don't want in the video")
-            
-            style_presets = ["None", "cinematic", "realistic", "animation", "stylized", 
-                           "3d-animation", "artistic", "documentary", "slow-motion"]
-            
-            style_preset = st.selectbox("Style Preset", style_presets)
-            if style_preset == "None":
-                style_preset = None
                 
             seed = st.number_input("Seed (for reproducibility)", 
                                  min_value=0, max_value=2147483647, 
@@ -64,7 +57,6 @@ class VideoGenerationPage(BasePage):
                         prompt=prompt,
                         duration=duration,
                         negative_prompt=negative_prompt if negative_prompt else None,
-                        style_preset=style_preset,
                         seed=seed
                     )
                     

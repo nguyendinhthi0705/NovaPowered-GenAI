@@ -13,8 +13,8 @@ class ImageGenerationPage(BasePage):
     
     def render(self):
         """Render image generation page"""
-        st.title("Image Generation with Amazon Nova Reel")
-        st.write("Generate images using Amazon Nova Reel model")
+        st.title("Image Generation with Amazon Nova Canvas")
+        st.write("Generate images using Amazon Nova Canvas model")
         
         # Input for prompt
         prompt = st.text_area("Describe the image you want to generate", 
@@ -25,15 +25,6 @@ class ImageGenerationPage(BasePage):
             negative_prompt = st.text_area("Negative Prompt (what to avoid in the image)", 
                                          placeholder="blurry, distorted, low quality", 
                                          help="Describe elements you don't want in the image")
-            
-            style_presets = ["None", "3d-model", "analog-film", "anime", "cinematic", "comic-book", 
-                           "digital-art", "fantasy-art", "isometric", "line-art", "low-poly", 
-                           "modeling-compound", "neon-punk", "origami", "photographic", "pixel-art", 
-                           "tile-texture"]
-            
-            style_preset = st.selectbox("Style Preset", style_presets)
-            if style_preset == "None":
-                style_preset = None
                 
             seed = st.number_input("Seed (for reproducibility)", 
                                  min_value=0, max_value=2147483647, 
@@ -52,7 +43,6 @@ class ImageGenerationPage(BasePage):
                         image_bytes = self.image_generation_service.generate_image(
                             prompt=prompt,
                             negative_prompt=negative_prompt if negative_prompt else None,
-                            style_preset=style_preset,
                             seed=seed
                         )
                         
