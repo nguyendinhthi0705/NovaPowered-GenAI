@@ -13,7 +13,6 @@ class VideoGenerationPage(BasePage):
         self.title = title
         super().__init__("Video Generation Page")
         self.video_generation_service = video_generation_service
-        self.s3_client = boto3.client('s3', region_name=config.AWS_REGION)
     
     def render(self):
         """Render video generation page"""
