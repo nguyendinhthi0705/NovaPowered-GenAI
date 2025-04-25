@@ -68,7 +68,7 @@ aws configure
 
 ```bash
 # Clone repository
-git clone https://github.com/nguyendinhthi0705/NovaPowered-GenAI.git
+git clone git@ssh.gitlab.aws.dev:ndthi/NovaPowered-GenAI.git
 
 # Navigate to project directory
 cd NovaPowered-GenAI
